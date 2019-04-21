@@ -5,3 +5,6 @@ __pycache__/
 
 # 가상환경
 myvenv/
+
+# db 접속
+*.cnf
