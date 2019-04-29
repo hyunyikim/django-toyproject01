@@ -12,3 +12,11 @@ def detail(request, num):
     board = get_object_or_404(Board, pk=num)
     return render(request, 'board/detail.html', {'board':board})
 
+def new(request):
+    return render(request, 'board/write.html')
+
+def update(request):
+    return render()
+
+def delete(request):
+    return render()
