@@ -19,10 +19,11 @@ def new(request):
     if request.method == 'POST':
         form = BoardForm(request.POST)
         if form.is_valid():
-            obj = Board(num='5', id=form.data['id'], title=form.data['title'], content=form.data['content']
-                        , dt=datetime.datetime.today(), hit=0)
+            num_sequence = Board.objects.order_by('num').last().num + 1
+            obj = Board(num=num_sequence, id=form.data['id'], title=form.data['title'], content=form.data['content']
+                            ,dt=datetime.datetime.today(), hit=0)
             obj.save()
-        return HttpResponse('save success')
+        return HttpResponseRedirect(reverse('board:detail', args=(num_sequence,)))
 
     if request.method == 'GET':
         form = BoardForm()
