@@ -5,10 +5,9 @@
     <title>글작성</title>
 </head>
 <body>
-    <form action="{% url 'board:write'%}" method="post">
-        <label>제목 : </label><input type="text" name="title"><br>
-        <label>글쓴이 : </label><input type="text" name="id"><br>
-        <label>글내용 : </label><textarea name="content"></textarea><br>
+    <form action="{% url 'board:new'%}" method="post">
+        {% csrf_token %}
+        {{ form }}
         <input type="submit" value="작성하기">
     </form>
 </body>
