@@ -12,6 +12,10 @@ def index(request):
     return render(request, 'board/index.html', context)
 
 def detail(request, num):
+    board = Board.objects.get(pk=num)
+    board.hit += 1
+    board.save()
+
     board = get_object_or_404(Board, pk=num)
     return render(request, 'board/detail.html', {'board':board})
 
