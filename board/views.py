@@ -37,3 +37,20 @@ class WriteView(generic.View):
                         title=form.data['title'], content=form.data['content'], hit=0)
             obj.save()
             return HttpResponseRedirect(reverse('board:detail', args=(obj.num,)))
+
+
+class UpdateView(generic.View):
+    print()
+
+class DeleteView(generic.View):
+    def get(self, request, *args, **kwargs):
+        num = self.kwargs.get("pk")
+        try:
+            board = Board.objects.get(num=num)
+            board.delete()
+            return HttpResponseRedirect(reverse('board:index'))
+        except(KeyError, Board.DoesNotExist):
+            return render(request, 'board/detail.html', {
+                'board':board,
+                'error_message':'delete failed'
+            })

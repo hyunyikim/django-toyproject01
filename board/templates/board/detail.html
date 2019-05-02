@@ -5,12 +5,15 @@
     <title>글 상세보기</title>
 </head>
 <body>
-    글제목 : {{object.title}}<br>
+    {%if error_message %}{{ error_message }}{% endif %}
+    글제목 : {{board.title}}<br>
     글쓴이 : {{board.id}}<br>
     글내용 : {{board.content}}<br>
     작성일 : {{board.dt}}<br>
     조회수 : {{board.hit}}<br>
     파일유무 : {{board.attachedfile}}<br>
+    <a href="/board/{{board.num}}/update/">수정하기</a>
+    <a href="/board/{{board.num}}/delete/">삭제하기</a>
     <a href="/board/">목록으로</a>
 </body>
 </html>
