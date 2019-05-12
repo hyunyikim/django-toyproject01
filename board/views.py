@@ -17,7 +17,6 @@ class DetailView(generic.View):
         board = get_object_or_404(Board, pk=self.kwargs.get("pk"))
         board.hit += 1
         board.save()
-        print('board :', board.num)
         return render(request, self.template_name, {'board':board})
 
 
@@ -40,7 +39,45 @@ class WriteView(generic.View):
 
 
 class UpdateView(generic.View):
-    print()
+    form_class = BoardForm
+    template_name = 'board/write.html'
+
+    def get(self, request, *args, **kwrags):
+        try:
+            num = self.kwargs.get("pk")
+            board = Board.objects.get(num=num)
+            form = self.form_class(
+                initial={
+                    'num': board.num,
+                    'title': board.title,
+                    'content': board.title,
+                    'id': board.id
+                }
+            )
+            return render(request, self.template_name, {'form':form})
+        except(KeyError, Board.DoesNotExist):
+            return render(request, 'board/detail.html', {
+                'board':board,
+                'error_message':'update failed'
+            })
+
+    def post(self, request, *args, **kwrags):
+        form_class = BoardForm
+        try:
+            form = form_class(request.POST)
+            if form.is_valid():
+                board = get_object_or_404(Board, pk=request.POST['num'])
+                board.title = form.cleaned_data['title']
+                board.content = form.cleaned_data['content']
+                board.save()
+                return render(request, 'board/detail.html', {'board':board})
+        except(KeyError, Board.DoesNotExist):
+            return render(request, 'board/detail.html', {
+                'board': board,
+                'error_message': 'delete failed'
+            })
+
+
 
 class DeleteView(generic.View):
     def get(self, request, *args, **kwargs):

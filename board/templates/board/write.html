@@ -5,7 +5,7 @@
     <title>글작성</title>
 </head>
 <body>
-    <form action="{% url 'board:new'%}" method="post">
+    <form action="" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="작성하기">
